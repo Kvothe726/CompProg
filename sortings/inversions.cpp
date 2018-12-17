@@ -1,5 +1,4 @@
-template <typename T>
-long long mergeSortAndCountInversions(T* arr, int size)
+long long mergeSortAndCountInversions(int* arr, int size)
 {
   int m;
 
@@ -12,11 +11,11 @@ long long mergeSortAndCountInversions(T* arr, int size)
 	invCountA = mergeSortAndCountInversions(arr, m);
 	invCountB = mergeSortAndCountInversions(arr + m, size - m);
 
-	T* arrPartA = new T[m];
-	T* arrPartB = new T[size - m];
+	int* arrPartA = new int[m];
+	int* arrPartB = new int[size - m];
 
-	memcpy(arrPartA, arr, sizeof(T) * m);
-	memcpy(arrPartB, arr + m, sizeof(T) * (size - m));
+	memcpy(arrPartA, arr, sizeof(int) * m);
+	memcpy(arrPartB, arr + m, sizeof(int) * (size - m));
 
 	int i = 0, j = 0, k = 0;
 

@@ -1,5 +1,5 @@
-template <typename T>
-void EE(T a, T b, T& x, T& y)
+
+void EE(int a, int b, int& x, int& y)
 {
     if(a%b == 0)
     {
@@ -8,15 +8,14 @@ void EE(T a, T b, T& x, T& y)
         return;
     }
     EE(b,a%b,x,y);
-    T temp = x;
+    int temp = x;
     x = y;
     y = temp - y*(a/b);
 }
 
-template <typename T>
-T inverse(T a, T m)
+int inverse(int a, int m)
 {
-    T x,y;
+    int x,y;
     EE(a,m,x,y);
     if(x<0) x += m;
     return x;
