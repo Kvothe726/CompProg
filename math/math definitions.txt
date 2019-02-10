@@ -1,0 +1,33 @@
+"P if and only if Q" is equivalent to "if P then Q" and "if Q then P"
+Rouché–Capelli theorem
+	A system has no solution if (rank (Coefficient mat) != rank(Augmented mat))
+	it has unique solution if no of columns in C = rank(C)
+	it has infinite solutions if no of columns in C >rank(C)
+
+	
+A.7 Equality
+Equality is a relation linking two objects x, y of the same type T
+(e.g., two integers, or two matrices, or two vectors, etc.). Given two
+such objects x and y, the statement x = y may or may not be true; it
+depends on the value of x and y and also on how equality is defined for
+the class of objects under consideration. For instance, as real numbers,
+the two numbers 0.9999 ... and 1 are equal. In modular arithmetic with
+modulus 10 (in which numbers are considered equal to their remainders
+modulo 10), the numbers 12 and 2 are considered equal, 12 = 2, even
+though this is not the case in ordinary arithmetic.
+How equality is defined depends on the class T of objects under
+consideration, and to some extent is just a matter of definition. However,
+for the purposes of logic we require that equality obeys the following four
+axioms of equality:
+• (Reflexive axiom). Given any object x, we have x = x.
+• (Symmetry axiom). Given any two objects x and y of the same
+type, if x = y, then y = x.
+• (Transitive axiom). Given any three objects x, y, z of the same
+type, if x = y and y = z, then x = z.
+• (Substitution axiom). Given any two objects x and y of the same
+type, if x = y, then f(x) = f(y) for all functions or operations f.
+330 A. Appendix: the basics of mathematical logic
+Similarly, for any property P(x) depending on x, if x = y, then
+P(x) and P(y) are equivalent statements.
+The first three axioms are clear, together, they assert that equality
+is an equivalence relation.	- Terence Tao
