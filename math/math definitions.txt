@@ -1,4 +1,5 @@
 "P if and only if Q" is equivalent to "if P then Q" and "if Q then P"
+
 Rouché–Capelli theorem
 	A system has no solution if (rank (Coefficient mat) != rank(Augmented mat))
 	it has unique solution if no of columns in C = rank(C)
@@ -31,3 +32,6 @@ Similarly, for any property P(x) depending on x, if x = y, then
 P(x) and P(y) are equivalent statements.
 The first three axioms are clear, together, they assert that equality
 is an equivalence relation.	- Terence Tao
+
+FORWARD DP is correct if and only if all the normal transition states (ex fib(n)=fib(n-1)+fib(n-2) (n-1) and (n-2) are normal transition states for n)
+are visited in code loop before our current state gets visited(to change other state values) and all the transitions are done when they (normal transition states) were visited.
