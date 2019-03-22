@@ -21,3 +21,33 @@ void sieve()
     }
     return;
 }
+
+
+int mob[nmax];
+int prime[nmax];
+
+void mobsieve(){
+    for(int i=2;i<nmax;i++){
+        prime[i]=1;
+        mob[i]=1;
+    }
+    mob[1]=1;
+    for(int i=2;i<nmax;i++){
+        if(prime[i]){
+            mob[i]=-1;
+            for(int j=i;j<nmax;j+=i){
+                prime[j]=0;
+                int k=j/i;
+                if(k%i!=0){
+                    mob[j]=mob[i]*mob[k];
+                }
+                else{
+                    mob[j]=0;
+                }
+            }
+        }
+
+    }
+
+    return;
+}
