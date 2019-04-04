@@ -20,8 +20,8 @@ public:
 
     int hash(int i, int j) {
         long long h = psum[j+1] - psum[i];
-        if (h < 0)
-            h += mod;
+        while (h < 0)			// As we are using (c-'a'+1), psum[i] may be negative when we use char's before 'a' in string 
+            h += mod;		// So we need to use while() instead of if() to make h positive 
         return h * inv_powers[i] % mod;
     }
 
