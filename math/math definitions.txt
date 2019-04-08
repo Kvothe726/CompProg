@@ -33,5 +33,9 @@ P(x) and P(y) are equivalent statements.
 The first three axioms are clear, together, they assert that equality
 is an equivalence relation.	- Terence Tao
 
-FORWARD DP is correct if and only if all the normal transition states (ex fib(n)=fib(n-1)+fib(n-2) (n-1) and (n-2) are normal transition states for n)
-are visited in code loop before our current state gets visited(to change other state values) and all the transitions are done when they (normal transition states) were visited.
+Every DP algorithm has an underlying DAG structure that usually is implicit 
+Each node in the DAG represents a subproblem.
+A directed edge from node A to node B indicates that the solution to the
+subproblem represented by node A is used to compute the solution to the
+subproblem represented by node B
+(So finding out correct way(transitions etc) to do forward dp, backward dp or top down dp is easy if we visualize the dag structure of dp).
