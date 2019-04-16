@@ -3,9 +3,9 @@ vector <int> primes;
 
 void sieve()
 {
-    F(i,1,MAXV)
-        prime[i]=i;
-
+    for(int i=0;i<MAXV;i++) {
+        prime[i] = i;
+    }
     for (int p=2; p*p<=(MAXV-1); p++)
     {
         if (prime[p] == p)
@@ -14,13 +14,13 @@ void sieve()
                 prime[i] = p;
         }
     }
-    F(i,2,MAXV){
+    for(int i=2;i<MAXV;i++){
         if(prime[i]==i){
-            primes.pb(i);
+            primes.push_back(i);
         }
     }
-    return;
 }
+
 
 
 int mob[nmax];
