@@ -33,7 +33,6 @@ long long mergeSortAndCountInversions(int* arr, int size)
 			arr[k] = arrPartB[j];
 			j++;
 
-			invCountC += 1;
 		}
 
 		k++;
@@ -41,8 +40,6 @@ long long mergeSortAndCountInversions(int* arr, int size)
 		if (i >= m || j >= (size - m))
 			break;
 	}
-
-	invCountC -= j;
 
 	while (i < m)
 	{
