@@ -29,5 +29,7 @@ public:
             }
         }
     }
-
+    int operator[](int ind){
+        return z[ind];
+    }
 };
