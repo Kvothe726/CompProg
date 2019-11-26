@@ -1,4 +1,5 @@
 /*If in any problem you want to use any data structure two times (ex. two seg trees in the same problem) just create a class for it and create two object instances*/
+// This is for min over segment, with addition update.
 
 #include <iostream>
 #include <climits>
