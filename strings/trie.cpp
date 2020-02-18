@@ -1,4 +1,4 @@
-const int nmax = (1 << 20);
+const int nmax = (1 << 20); // accomodate the size of string also  = totalstrings*(size+1).
 
 struct trie
 {
