@@ -1,4 +1,5 @@
 // complexity = EV^2, for unit networks E*sqrt(v);
+// should pass 0 indexed vertices
 
 struct FlowEdge {
     int v, u;

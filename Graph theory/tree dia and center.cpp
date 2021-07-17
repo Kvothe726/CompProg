@@ -1,6 +1,15 @@
+// pass zero indexed graph and edges
+
 struct TreeDiameter {
-    int n, dist[MX], pre[MX];
-    vector <int> adj[MX];
+    int n;
+    vector<int> dist, pre;
+    vector<vector <int>> adj;
+
+    TreeDiameter(vector<vector<int>> g):adj(g){
+        int n = adj.size();
+        dist.assign(n,0);
+        pre.resize(n);
+    }
 
     void addEdge(int a, int b) {
         adj[a].pb(b), adj[b].pb(a);
@@ -15,21 +24,20 @@ struct TreeDiameter {
     }
 
     void genDist(int cur) {
-        memset(dist,0,sizeof dist);
         pre[cur] = -1;
         dfs(cur);
     }
 
     int diameterLength() {
-        genDist(1);
-        int bes = 0; for(int i=1;i<=n;i++) if (dist[i] > dist[bes]) bes = i;
-        genDist(bes); for(int i=1;i<=n;i++) if (dist[i] > dist[bes]) bes = i;
+        genDist(0);
+        int bes = 0; for(int i=0;i<n;i++) if (dist[i] > dist[bes]) bes = i;
+        genDist(bes); for(int i=0;i<n;i++) if (dist[i] > dist[bes]) bes = i;
         return dist[bes];
     }
 
     vector <int> genCenter() {
         int t = diameterLength();
-        int bes = 0; for(int i=1;i<=n;i++) if (dist[i] > dist[bes]) bes = i;
+        int bes = 0; for(int i=0;i<n;i++) if (dist[i] > dist[bes]) bes = i;
 
         for(int i=0;i<t/2;i++) bes = pre[bes];
         if (t&1) return {bes,pre[bes]};
