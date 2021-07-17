@@ -1,7 +1,15 @@
 class segtree{
 public:
     int n;  // array size
-    int t[2 * nmax];
+    vector<int> t;
+
+    segtree(vector<int> a){
+      int n = a.size();
+      t.resize(2*n,0);
+      for(int i=n;i<2*n;i++){
+        t[i] = a[i-n];
+      }
+    }
 
     void build() {  // build the tree
       for (int i = n - 1; i > 0; --i) t[i] = t[i<<1] + t[i<<1|1];
