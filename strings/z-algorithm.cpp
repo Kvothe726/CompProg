@@ -2,11 +2,11 @@ class zalgo {
 public:
     string s;
     int n;
-    int z[nmax];
+    vector<int> z;
     zalgo(string p) {
-        memset(z, 0, sizeof(z));
         s = p;
         n = p.size();
+        z.assign(n, 0);
         computez();
     }
     void computez() {
@@ -29,6 +29,7 @@ public:
             }
         }
     }
+    // returns the length
     int operator[](int ind){
         return z[ind];
     }
