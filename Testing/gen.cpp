@@ -1,23 +1,13 @@
 // generating a random sequence of distinct elements
 #include <bits/stdc++.h>
+#include "testlib.h"
 using namespace std;
 
-int rand(int a, int b) {
-    return a + rand() % (b - a + 1);
-}
+int main(int argc, char* argv[])
+{
+    registerGen(argc, argv, 1);
 
-int main(int argc, char* argv[]) {
-    srand(atoi(argv[1])); // atoi(s) converts an array of chars to int
-    int n = rand(2, 100);
-    printf("%d\n", n);
-    set<int> used;
-    for(int i = 0; i < n; ++i) {
-        int x;
-        do {
-            x = rand(1, 100);
-        } while(used.count(x));
-        printf("%d ", x);
-        used.insert(x);
-    }
-    puts("");
+    cout << rnd.next("[a-c]{12}") << endl;
+
+    return 0;
 }
