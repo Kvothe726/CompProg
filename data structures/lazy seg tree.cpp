@@ -194,11 +194,11 @@ S op(S l, S r) { return S{l.a + r.a, l.size + r.size}; }
 // main identity element such that op(e(), S) will be S
 S e() { return S{0, 0}; }
 
-// apply the lazy element F to main element S
+// apply the lazy element F to main element S, check if mapping(id(),S) is S
 S mapping(F l, S r) { return S{r.a * l.a + r.size * l.b, r.size}; }
 
-// Combine two lazy elements
+// Combine two lazy elements such that l is the last one
 F composition(F l, F r) { return F{r.a * l.a, r.b * l.a + l.b}; }
 
-// lazy identity element such that composition(id(), F) will be F
+// lazy identity element such that composition(id(), F) will be F and also mapping(id(),S) will be S
 F id() { return F{1, 0}; }
