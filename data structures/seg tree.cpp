@@ -108,10 +108,14 @@ template <class S, S (*op)(S, S), S (*e)()> struct segtree {
     void update(int k) { d[k] = op(d[2 * k], d[2 * k + 1]); }
 };
 
+struct S {
+    int x,y;
+};
+
 // operation you want to get for the range
-int op(int a, int b) { return a+b; }
+S op(S a, S b) { return a.x+b.x; }
 
 // identity element op(a,e) == a
-int e() { return 0; }
+S e() { return {0,0}; }
 
 //bool f(int v) { return v < target; }
