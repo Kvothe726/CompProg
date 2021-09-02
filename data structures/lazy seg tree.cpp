@@ -177,28 +177,34 @@ struct lazy_segtree {
     }
 };
 
+// for any f and any x,y f(op(x,y)) = op(f(x),f(y))
+
 // main element whether an int or a set
-struct S {
-    mint a;
-    int size;
-};
-
+using S = ll;
+ 
 // lazy array element
-struct F {
-    mint a, b;
-};
-
+using F = ll;
+ 
 // range query operation
-S op(S l, S r) { return S{l.a + r.a, l.size + r.size}; }
-
+S op(S l, S r) { return min(l,r); }
+ 
 // main identity element such that op(e(), S) will be S
-S e() { return S{0, 0}; }
-
+S e() { return 1e9+5; }
+ 
 // apply the lazy element F to main element S, check if mapping(id(),S) is S
-S mapping(F l, S r) { return S{r.a * l.a + r.size * l.b, r.size}; }
-
+S mapping(F l, S r) {
+    if(l==1e9+5)
+        return r;
+    return l;
+}
+ 
 // Combine two lazy elements such that l is the last one
-F composition(F l, F r) { return F{r.a * l.a, r.b * l.a + l.b}; }
-
-// lazy identity element such that composition(id(), F) will be F and also mapping(id(),S) will be S
-F id() { return F{1, 0}; }
+F composition(F l, F r) {
+    if(l == 1e9+5){
+        return r;
+    }
+    return l;
+}
+ 
+// lazy identity element such that composition(F, id()), composition(id(), F) will be F and also mapping(id(),S) will be S
+F id() { return 1e9+5; }
