@@ -3,6 +3,7 @@
 // A dsu that merges a path in the tree, and root of each component is the highest node from bottom.
 // To update on a path(u,v) leaving already updated edges, let l = lca(u,v) and do paint(u,l,val,ans) and same for v
 // imagine a tree path (node -> ancestor) as a path with bunch of already connected components in middle.
+// imagine the paints are being performed on the original tree and "ans" will contain exactly that after each paint.
 
 par[19][MAXN];
 int pa[MAXN], ans[MAXN];
