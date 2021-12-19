@@ -1,18 +1,18 @@
 // pass zero indexed graph and edges
 
-struct TreeDiameter {
+class TreeDiameter {
+public:
     int n;
     vector<int> dist, pre;
     vector<vector <int>> adj;
 
     TreeDiameter(vector<vector<int>> g):adj(g){
-        int n = adj.size();
-        dist.assign(n,0);
+        n = adj.size();
         pre.resize(n);
     }
 
     void addEdge(int a, int b) {
-        adj[a].pb(b), adj[b].pb(a);
+        adj[a].push_back(b), adj[b].push_back(a);
     }
 
     void dfs(int cur) {
@@ -24,6 +24,7 @@ struct TreeDiameter {
     }
 
     void genDist(int cur) {
+        dist.assign(n,0);
         pre[cur] = -1;
         dfs(cur);
     }
