@@ -1,71 +1,61 @@
-class SCC
-{
+class kosaraju{
+    void dfs(const vector<vector<int>> &graph, vector<bool> &used, vector<int> &res, int u) {
+        used[u] = true;
+        for (int v : graph[u])
+            if (!used[v])
+                dfs(graph, used, res, v);
+        res.push_back(u);
+    }
+    vector<vector<int>> graph,components;
+
 public:
-    SCC(int n) : n(n) {
-        adj.resize(n);
-        adj_t.resize(n);
+    kosaraju(vector<vector<int>> g):graph(g){
     }
 
-    void add_edge(int u, int v)
-    {
-        adj[u].push_back(v);
-        adj_t[v].push_back(u);
-    }
+    // Get strongly connected components
+    // each index 'i' contains list of all the actual vertices
+    vector<vector<int>> scc() {
+        int n = graph.size();
+        vector<bool> used(n);
+        vector<int> order;
+        for (int i = 0; i < n; i++)
+            if (!used[i])
+                dfs(graph, used, order, i);
 
-    int solve()
-    {
-        visited.assign(n, false);
-        for (int i = 0; i < n; ++i) {
-            if (!visited[i])
-                dfs1(i);
-        }
-        visited.assign(n, false);
-        reverse(order.begin(), order.end());
+        vector<vector<int>> reverseGraph(n);
+        for (int i = 0; i < n; i++)
+            for (int j : graph[i])
+                reverseGraph[j].push_back(i);
+
         components.clear();
-        component.resize(n);
-        int c = 0;
-        for (int i : order) {
-            if (!visited[i]) {
-                components.push_back({});
-                dfs2(i, c);
-                c++;
+        fill(used.begin(), used.end(), false);
+        reverse(order.begin(), order.end());
+
+        for (int u : order)
+            if (!used[u]) {
+                vector<int> component;
+                dfs(reverseGraph, used, component, u);
+                components.push_back(component);
             }
-        }
 
-        adj_condensation.resize(c);
-        for (int v = 0; v < n; v++) {
-            for (int u : adj[v]) {
-                if (component[v] != component[u])
-                    adj_condensation[component[v]].push_back(component[u]);
-            }
-        }
-
-        return c;
+        return components;
     }
 
-    void dfs1(int v)
-    {
-        visited[v] = true;
-        for (int u : adj[v]) {
-            if (!visited[u])
-                dfs1(u);
-        }
-        order.push_back(v);
+    // DAG of strongly connected components
+    // 0,1,2,..c vertices of the condensed graph are in topological order defaultly.
+    vector<vector<int>> scc_graph() {
+        scc();
+        vector<int> comp(graph.size());
+        for (int i = 0; i < components.size(); i++)
+            for (int u : components[i])
+                comp[u] = i;
+        vector<vector<int>> g(components.size());
+        #warning using unordered set careful for hacks.
+        unordered_set<long long> edges;
+        for (int u = 0; u < graph.size(); u++)
+            for (int v : graph[u])
+                if (comp[u] != comp[v] && edges.insert(((long long)comp[u] << 32) + comp[v]).second)
+                    g[comp[u]].push_back(comp[v]);
+        return g;
     }
-
-    void dfs2(int v, int c)
-    {
-        visited[v] = true;
-        components.back().push_back(v);
-        component[v] = c;
-        for (int u : adj_t[v]) {
-            if (!visited[u])
-                dfs2(u, c);
-        }
-    }
-
-    int n;
-    std::vector<std::vector<int>> adj, adj_t, components, adj_condensation;
-    std::vector<bool> visited;
-    std::vector<int> order, component;
 };
