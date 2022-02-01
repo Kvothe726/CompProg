@@ -240,7 +240,7 @@ public:
         return res;
     }
     
-    void apply(int a, int b, F f) {
+    void update(int a, int b, F f) {
         for (; head[a] != head[b]; b = parent[head[b]]) {
             if (depth[head[a]] > depth[head[b]])
                 swap(a, b);
@@ -248,7 +248,7 @@ public:
         }
         if (depth[a] > depth[b])
             swap(a, b);
-        st.apply(pos[a]+1, pos[b]+1, f);
+        st.apply(pos[a], pos[b]+1, f);
         return;
     }
  
