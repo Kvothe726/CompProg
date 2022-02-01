@@ -235,6 +235,8 @@ public:
         }
         if (depth[a] > depth[b])
             swap(a, b);
+        
+        // For edge updates/queries change pos[a] in below line to pos[a]+1 
         S last_heavy_path_max = st.prod(pos[a], pos[b]+1);
         res = op(res, last_heavy_path_max);
         return res;
@@ -248,6 +250,8 @@ public:
         }
         if (depth[a] > depth[b])
             swap(a, b);
+
+        // For edge updates/queries change pos[a] in below line to pos[a]+1
         st.apply(pos[a], pos[b]+1, f);
         return;
     }
