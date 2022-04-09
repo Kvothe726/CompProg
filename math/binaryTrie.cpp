@@ -1,13 +1,20 @@
-const int nmax = (1e5+5)*(31);
+#include <bits/stdc++.h>
+
+using namespace std;
 
 struct trie
 {
-	int psz, cnt[nmax], len[nmax];
-	int to[nmax][2];
+	int psz;
+	vector<int> cnt, len;
+    	vector<vector<int>> to;
 
-	trie() { psz = 1; memset(to,-1,sizeof(to));}
-
-	void clear() { for(int i = 0; i < psz; i++) cnt[i] = 0, len[i] = 0; psz = 1; memset(to,-1,sizeof(to));}
+	trie(int n) {
+		int nodes = (n+5)*31;
+		cnt.resize(nodes);
+		len.resize(nodes);
+		to.assign(nodes,vector<int>(2,-1));
+		psz = 1; 
+	}
 
 	void add(string s)
 	{
