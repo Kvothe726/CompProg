@@ -1,7 +1,3 @@
-#include <bits/stdc++.h>
-
-using namespace std;
-
 struct trie
 {
 	int psz;
@@ -10,8 +6,8 @@ struct trie
 
 	trie(int n) {
 		int nodes = (n+5)*31;
-		cnt.resize(nodes);
-		len.resize(nodes);
+		cnt.resize(nodes,0);
+		len.resize(nodes,0);
 		to.assign(nodes,vector<int>(2,-1));
 		psz = 1; 
 	}

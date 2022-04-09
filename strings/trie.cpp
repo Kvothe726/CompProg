@@ -1,13 +1,16 @@
-const int nmax = (1 << 20); // accomodate the size of string also  = totalstrings*(size+1).
-
+// send in total length of strings for constructor not count of strings.
 struct trie
 {
-	int psz, cnt[nmax], len[nmax];
-	map<char, int> to[nmax];
+	int psz;
+	vector<int> cnt,len;
+	vector<map<char, int>> to;
 
-	trie() { psz = 1; }
-
-	void clear() { for(int i = 0; i < psz; i++) cnt[i] = 0, len[i] = 0, to[i].clear(); psz = 1; }
+	trie(int tlen) { // we need to initiate with sum of lengths of strings
+		cnt.resize(tlen+5,0);
+		len.resize(tlen+5,0);
+		to.resize(tlen+5);
+		psz = 1;
+	}
 
 	void add(string s)
 	{
