@@ -17,7 +17,8 @@ struct triest
 		for(char c: s)
 		{
 			if(to[u][c-'0']==-1){ 
-                len.emplace_back();
+				cnt.emplace_back(0);
+                len.emplace_back(0);
                 to.emplace_back(vector<int>(2,-1));
                 len[psz] = len[u] + 1; 
                 to[u][c-'0'] = psz++;
