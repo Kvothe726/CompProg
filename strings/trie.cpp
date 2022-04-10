@@ -1,14 +1,14 @@
 // send in total length of strings for constructor not count of strings.
-struct trie
+struct triest
 {
 	int psz;
 	vector<int> cnt,len;
 	vector<map<char, int>> to;
 
-	trie(int tlen) { // we need to initiate with sum of lengths of strings
-		cnt.resize(tlen+5,0);
-		len.resize(tlen+5,0);
-		to.resize(tlen+5);
+	triest() { // we need to initiate with sum of lengths of strings
+		cnt.resize(1,0);
+		len.resize(1,0);
+		to.resize(1);
 		psz = 1;
 	}
 
@@ -17,7 +17,13 @@ struct trie
 		int u = 0;
 		for(char c: s)
 		{
-			if(!to[u].count(c)) len[psz] = len[u] + 1, to[u][c] = psz++;
+			if(!to[u].count(c)) {
+                cnt.emplace_back(0);
+                len.emplace_back(0);
+                to.emplace_back();
+                len[psz] = len[u] + 1; 
+                to[u][c] = psz++;
+            }
 			u = to[u][c]; cnt[u]++;
 		}
 	}

@@ -1,14 +1,13 @@
-struct trie
+struct triest
 {
 	int psz;
 	vector<int> cnt, len;
-    	vector<vector<int>> to;
+    vector<vector<int>> to;
 
-	trie(int n) {
-		int nodes = (n+5)*31;
-		cnt.resize(nodes,0);
-		len.resize(nodes,0);
-		to.assign(nodes,vector<int>(2,-1));
+	triest() {
+        cnt.assign(1,0);
+        len.assign(1,0);
+        to.assign(1,vector<int>(2,-1));
 		psz = 1; 
 	}
 
@@ -17,7 +16,12 @@ struct trie
 		int u = 0;
 		for(char c: s)
 		{
-			if(to[u][c-'0']==-1) len[psz] = len[u] + 1, to[u][c-'0'] = psz++;
+			if(to[u][c-'0']==-1){ 
+                len.emplace_back();
+                to.emplace_back(vector<int>(2,-1));
+                len[psz] = len[u] + 1; 
+                to[u][c-'0'] = psz++;
+            }
 			u = to[u][c-'0']; cnt[u]++;
 		}
 	}
@@ -27,7 +31,7 @@ struct trie
 		int u = 0;
 		for(char c: s)
 		{
-			if(!to[u][c-'0']==-1) return;
+			if(to[u][c-'0']==-1) return;
 			u = to[u][c-'0']; cnt[u]--;
 		}
 	}
