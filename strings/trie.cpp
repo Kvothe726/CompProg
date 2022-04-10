@@ -1,4 +1,3 @@
-// send in total length of strings for constructor not count of strings.
 struct triest
 {
 	int psz;
