@@ -1,67 +1,128 @@
-#include <bits/stdc++.h>
+typedef complex<double> CD;
+//struct CD {
+//    double x, y;
+//    CD(double x=0, double y=0) :x(x), y(y) {}
+//    CD operator+(const CD& o) { return {x+o.x, y+o.y};}
+//    CD operator-(const CD& o) { return {x-o.x, y-o.y};}
+//    CD operator*(const CD& o) { return {x*o.x-y*o.y, x*o.y+o.x*y};}
+//    void operator /= (double d) { x/=d; y/=d;}
+//    double real() {return x;}
+//    double imag() {return y;}
+//};
+//CD conj(const CD &c) {return CD(c.x, -c.y);}
 
-using namespace std;
+const double PI = acos(-1.0L);
 
-typedef long long ll;
+namespace FFT {
+    int N;
+    vector<int> perm;
+    vector<CD> wp[2];
 
-template<typename T> struct cp {
-	T x, y;
-	cp<T> operator+(const cp &o) const {
-		return {x+o.x, y+o.y};
-	}
-	cp<T> operator*(const cp &o) const {
-		return {x*o.x-y*o.y, x*o.y+y*o.x};
-	}
-};
+    void precalculate(int n) {
+        assert((n & (n-1)) == 0);
+        N = n;
+        perm = vector<int> (N, 0);
+        for (int k=1; k<N; k<<=1) {
+            for (int i=0; i<k; i++) {
+                perm[i] <<= 1;
+                perm[i+k] = 1 + perm[i];
+            }
+        }
 
-template<typename T> void fft(vector<cp<T>> &a, bool iv) {
-	int n=a.size();
-	for(int i=0, j=0; i<n; ++i) {
-		if(i>j)
-			swap(a[i], a[j]);
-		for(int k=n/2; (j^=k)<k; k/=2);
-	}
-	for(int st=1; 2*st<=n; st*=2) {
-		T an=acos((T)-1)/st*(iv?-1:1);
-		cp<T> wn={cos(an), sin(an)}, wi={1, 0};
-		for(int i=0; i<n; i+=2*st) {
-			cp<T> wi={1, 0};
-			for(int j=i; j<i+st; ++j, wi=wi*wn) {
-				cp<T> u=a[j], v=wi*a[j+st];
-				a[j]=u+v;
-				a[j+st]=u+v*cp<T>{-1, 0};
-			}
-		}
-	}
-	if(iv)
-		for(int i=0; i<n; ++i)
-			a[i].x/=n;
-}
+        wp[0] = wp[1] = vector<CD>(N);
+        for (int i=0; i<N; i++) {
+            wp[0][i] = CD( cos(2*PI*i/N),  sin(2*PI*i/N) );
+            wp[1][i] = CD( cos(2*PI*i/N), -sin(2*PI*i/N) );
+        }
+    }
 
-int main(){
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
+    void fft(vector<CD> &v, bool invert = false) {
+        if (v.size() != perm.size())    precalculate(v.size());
 
-	vector<cp<double>> a(1<<4),b(1<<4); //initialize for final array size in pows of 2
-	for(int i=0;i<(1<<2);i++){
-		a[i].x=1;
-	}
-	for(int i=0;i<(1<<3);i++){
-		b[i].x=1;
-	}
+        for (int i=0; i<N; i++)
+            if (i < perm[i])
+                swap(v[i], v[perm[i]]);
 
-	fft(a,0);
-	fft(b,0);
+        for (int len = 2; len <= N; len *= 2) {
+            for (int i=0, d = N/len; i<N; i+=len) {
+                for (int j=0, idx=0; j<len/2; j++, idx += d) {
+                    CD x = v[i+j];
+                    CD y = wp[invert][idx]*v[i+j+len/2];
+                    v[i+j] = x+y;
+                    v[i+j+len/2] = x-y;
+                }
+            }
+        }
 
-	for(int i=0;i<(1<<4);i++){
-		a[i]=a[i]*b[i];
-	}
+        if (invert) {
+            for (int i=0; i<N; i++) v[i]/=N;
+        }
+    }
 
-	fft(a,1);
+     void pairfft(vector<CD> &a, vector<CD> &b, bool invert = false) {
+        int N = a.size();
+        vector<CD> p(N);
+        for (int i=0; i<N; i++) p[i] = a[i] + b[i] * CD(0, 1);
+        fft(p, invert);
+        p.push_back(p[0]);
 
-	for(int i=0;i<(1<<4);i++){
-		cout << ll(round(a[i].x)) << " ";
-	}
-	cout << endl;
-	return 0;
+        for (int i=0; i<N; i++) {
+            if (invert) {
+                a[i] = CD(p[i].real(), 0);
+                b[i] = CD(p[i].imag(), 0);
+            }
+            else {
+                a[i] = (p[i]+conj(p[N-i]))*CD(0.5, 0);
+                b[i] = (p[i]-conj(p[N-i]))*CD(0, -0.5);
+            }
+        }
+    }
+
+    vector<ll> multiply(const vector<ll> &a, const vector<ll> &b) {
+        int n = 1;
+        while (n < a.size()+ b.size())  n<<=1;
+
+        vector<CD> fa(a.begin(), a.end()), fb(b.begin(), b.end());
+        fa.resize(n); fb.resize(n);
+
+//        fft(fa); fft(fb);
+        pairfft(fa, fb);
+        for (int i=0; i<n; i++) fa[i] = fa[i] * fb[i];
+        fft(fa, true);
+
+        vector<ll> ans(n);
+        for (int i=0; i<n; i++)     ans[i] = round(fa[i].real());
+        return ans;
+    }
+
+    const int M = 1e9+7, B = sqrt(M)+1;
+    vector<ll> anyMod(const vector<ll> &a, const vector<ll> &b) {
+        int n = 1;
+        while (n < a.size()+ b.size())  n<<=1;
+        vector<CD> al(n), ar(n), bl(n), br(n);
+
+        for (int i=0; i<a.size(); i++)  al[i] = a[i]%M/B, ar[i] = a[i]%M%B;
+        for (int i=0; i<b.size(); i++)  bl[i] = b[i]%M/B, br[i] = b[i]%M%B;
+
+        pairfft(al, ar); pairfft(bl, br);
+//        fft(al); fft(ar); fft(bl); fft(br);
+
+        for (int i=0; i<n; i++) {
+            CD ll = (al[i] * bl[i]), lr = (al[i] * br[i]);
+            CD rl = (ar[i] * bl[i]), rr = (ar[i] * br[i]);
+            al[i] = ll; ar[i] = lr;
+            bl[i] = rl; br[i] = rr;
+        }
+
+        pairfft(al, ar, true); pairfft(bl, br, true);
+//        fft(al, true); fft(ar, true); fft(bl, true); fft(br, true);
+
+        vector<ll> ans(n);
+        for (int i=0; i<n; i++) {
+            ll right = round(br[i].real()), left = round(al[i].real());;
+            ll mid = round(round(bl[i].real()) + round(ar[i].real()));
+            ans[i] = ((left%M)*B*B + (mid%M)*B + right)%M;
+        }
+        return ans;
+    }
 }
