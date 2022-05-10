@@ -1,11 +1,5 @@
 // This is just the prototype use this for the flow of your code.
 
-void remove(idx);  // TODO: remove value at idx from data structure
-void add(idx);     // TODO: add value at idx from data structure
-int get_answer();  // TODO: extract the current answer of the data structure
-
-int block_size;
-
 struct Query {
     int l, r, idx;
     bool operator<(Query other) const
@@ -14,6 +8,12 @@ struct Query {
                make_pair(other.l / block_size, other.r);
     }
 };
+
+void remove(int idx);  // TODO: remove value at idx from data structure
+void add(int idx);     // TODO: add value at idx from data structure
+int get_answer();  // TODO: extract the current answer of the data structure
+
+int block_size = sqrt(200005);
 
 vector<int> mo_s_algorithm(vector<Query> queries) {
     vector<int> answers(queries.size());
