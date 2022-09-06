@@ -51,5 +51,11 @@ void premin(vector<vector<int>> &a, int kn, int km){
         solverow(a[i],kn);
     }
     transpose(a);
+
+    // resize a
+    for(int i=0;i<n;i++){
+        a[i].resize(m-km+1);
+    }
+    a.resize(n-kn+1);
     return;
 }
