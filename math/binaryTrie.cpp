@@ -2,12 +2,12 @@ struct triest
 {
 	int psz;
 	vector<int> cnt, len;
-    vector<vector<int>> to;
+    vector<array<int,2>> to;
 
 	triest() {
         cnt.assign(1,0);
         len.assign(1,0);
-        to.assign(1,vector<int>(2,-1));
+        to.assign(1,array<int,2>({-1,-1}));
 		psz = 1; 
 	}
 
@@ -19,7 +19,7 @@ struct triest
 			if(to[u][c-'0']==-1){ 
 				cnt.emplace_back(0);
                 len.emplace_back(0);
-                to.emplace_back(vector<int>(2,-1));
+                to.emplace_back(array<int,2>({-1,-1}));
                 len[psz] = len[u] + 1; 
                 to[u][c-'0'] = psz++;
             }
